@@ -55,12 +55,12 @@ $(document).ready(function () {
         slidesToScroll: 1,
         autoplaySpeed: 2000,
     });
-    //Auto Tabs
+    //Auto Tabs variables
     let total = $('.Team__img').length;
     let elementIndex = 0;
     let delay = 4000;
     let timer;
-    //Auto tabs function
+    //Auto tabs
     const autotabs = function () {
         timer = setInterval(() => {
             //Check if current index is last
