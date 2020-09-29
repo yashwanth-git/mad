@@ -45,8 +45,7 @@ $(document).ready(function () {
         $('.underline').css('left', pos.left + marginLeft);
     })
     $('.Services__list__item').on('click', function () {
-        $('.current').removeClass('current');
-        $(this).addClass('current');
+        $(this).addClass('current').siblings().removeClass('current');
     });
     //Slider
     $('#customer__slider').slick({
@@ -59,29 +58,30 @@ $(document).ready(function () {
     //Auto Tabs
     let total = $('.Team__img').length;
     let elementIndex = 0;
-
-    let autotabs = setInterval(function () {
-        //Check if current index is last
-        if ($('.Team__img.active').index() == total - 1)
-            elementIndex = 0;
-        else
-            elementIndex++;
-        //Transfer the active class to next element
-        $('.Team__img.active').removeClass('active');
-        $('.Team__member.active').removeClass('active');
-        $('.Team__img').eq(elementIndex).addClass('active');
-        let teamMember = $('.Team__img.active').attr("data-id"); //get corresponding team member id
-        $("#" + teamMember).addClass("active");
-    }, 5000);
-
+    let delay = 4000;
+    let timer;
+    //Auto tabs function
+    const autotabs = function () {
+        timer = setInterval(() => {
+            //Check if current index is last
+            if ($('.Team__img.active').index() == total - 1)
+                elementIndex = 0;
+            else
+                elementIndex++;
+            //Transfer the active class to next element
+            $('.Team__img').eq(elementIndex).addClass('active').siblings().removeClass('active');
+            let teamMember = $('.Team__img.active').attr("data-id"); //get corresponding team member id
+            $("#" + teamMember).addClass("active").siblings().removeClass('active');
+        }, delay);
+    }
+    autotabs();
     //On click 
     $('.Team__img').click(function () {
-        clearInterval(autotabs);
+        clearInterval(timer);
         elementIndex = $(this).index();
-        $('.Team__img.active').removeClass('active');
-        $('.Team__member.active').removeClass('active');
-        $(this).addClass('active');
+        $(this).addClass('active').siblings().removeClass('active');
         let teamMember = $(this).attr('data-id');
-        $("#" + teamMember).addClass("active");
+        $("#" + teamMember).addClass("active").siblings().removeClass('active');
+        autotabs();
     })
 });
